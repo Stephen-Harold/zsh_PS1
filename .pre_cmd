@@ -1,0 +1,21 @@
+#!/bin/bash
+_rtnerrval=$1
+_userNameButTheFirstThreeCharactersOnly=$(LOGNAME | cut -c1-3)
+# I know function and variable names are supposed to be descriptive but is this taking the pineapple?
+_userNameButTheFirstThreeCharactersOnlyInUPPERcase=$(echo $_userNameButTheFirstThreeCharactersOnly | tr '[:lower:]' '[:upper:]')
+_userclr=$(tput setaf 130)
+_hostclr=$(tput setaf 33)
+_pwdclr=$(tput setaf 40)
+_timeclr=$(tput setaf 7)
+_errclr=$(tput setaf 1)
+_bold=$(tput bold)
+_rst=$(tput sgr0)
+_pwd=${PWD/$HOME/'~'}
+if [ "$_rtnerrval" != "0" ]; then
+#	_rtnErrTime=`echo "%{$_rst%}[%{$_errclr$_bold%}%03d%{$_rst%}]" "$_rtnerrval"`
+	_rtnErrTime=`printf "$_rst[$_errclr$_bold%03d$_rst]" "$_rtnerrval"`
+else
+	_rtnErrTime=`echo "%{$_rst%}[%{$_timeclr%}%T%{$_rst%}]"`
+fi
+echo "[%{$_userclr%}%{$_userNameButTheFirstThreeCharactersOnlyInUPPERcase%}\
+%{$_rst%}@%{$_hostclr%}%m%{$_rst%}(%{$_pwdclr%}%1~%{$_rst%})%{$_rst%}]$_rtnErrTime$ "
