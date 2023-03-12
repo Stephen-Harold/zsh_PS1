@@ -1,20 +1,32 @@
 #!/bin/bash
-_rtnerrval=$1
+_rtnval=$1
 _userNameButTheFirstThreeCharactersOnly=$(LOGNAME | cut -c1-3)
 # I know function and variable names are supposed to be descriptive but is this taking the pineapple?
 _userNameButTheFirstThreeCharactersOnlyInUPPERcase=$(echo $_userNameButTheFirstThreeCharactersOnly | tr '[:lower:]' '[:upper:]')
-_userclr=$(tput setaf 130)
-_hostclr=$(tput setaf 33)
-_pwdclr=$(tput setaf 40)
-_timeclr=$(tput setaf 7)
-_errclr=$(tput setaf 1)
+_userclr=$(tput setaf 202)
+_uhostdecor=$(tput setaf 172)
+_atsignclr=$(tput setaf 94)
+_hostclr=$(tput setaf 37)
+_pwddecor=$(tput setaf 28)
+_pwdclr=$(tput setaf 82)
+_timedecor=$(tput setaf 141)
+_timeclr=$(tput setaf 129)
+_errdecor1=$(tput setaf 125)
+_errdecor2=$(tput setaf 225)
+_errclr=$(tput setaf 195)
+_appleclr=$(tput setaf 231)
 _bold=$(tput bold)
 _rst=$(tput sgr0)
 _pwd=${PWD/$HOME/'~'}
-if [ "$_rtnerrval" != "0" ]; then
-	_rtnErrTime=`printf "$_rst[$_errclr$_bold%03d$_rst]" "$_rtnerrval"`
+if [ "$_rtnval" != "0" ]
+then
+	_rtnErrTime=`printf "%s%s[%s>%s%03d%s%s<%s]%s" %{$_rst%} %{$_errdecor1%} %{$_errdecor2%} %{$_errclr$_bold%}\
+$_rtnval %{$_rst%} %{$_errdecor2%} %{$_errdecor1%} %{$_rst%}`
 else
-	_rtnErrTime=`echo "%{$_rst%}%{$_timeclr%}%T%{$_rst%}"`
+	_now=$(date +%H:%M)
+	_rtnErrTime=`echo "%{$_rst%}%{$_timedecor%}[%{$_timeclr%}$_now%{$_timedecor%}]"`
 fi
-echo "[%{$_userclr%}%{$_userNameButTheFirstThreeCharactersOnlyInUPPERcase%}\
-%{$_rst%}@%{$_hostclr%}%m%{$_rst%}(%{$_pwdclr%}%1~%{$_rst%})%{$_rst%}]$_rtnErrTime$ "
+
+_end=%{$_appleclr%}Ô
+echo "%{$_uhostdecor%}[%{$_userclr%}$_userNameButTheFirstThreeCharactersOnlyInUPPERcase%{$_rst%}%{$_atsignclr%}@%{$_hostclr%}%m%{$_uhostdecor%}]\
+%{$_pwddecor%}(%{$_pwdclr%}%1~%{$_pwddecor%})%{$_rst%}$_rtnErrTime%{$_appleclr%}%{$_rst%}: "
