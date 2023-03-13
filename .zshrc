@@ -8,7 +8,7 @@ function command_not_found_handler() {
         return 127;
 }
 
-# Re-define 'precmd' function to catch the command line [RETURN] event.
+# Define 'precmd' function to catch the command line 'enter-event'.
 precmd() {
     rtnval=$?
     export PS1=$(~/.pre_cmd $rtnval)
