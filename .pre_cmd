@@ -20,13 +20,11 @@ _rst=$(tput sgr0)
 _pwd=${PWD/$HOME/'~'}
 if [ "$_rtnval" != "0" ]
 then
-	_rtnErrTime=`printf "%s%s[%s>%s%03d%s%s<%s]%s" %{$_rst%} %{$_errdecor1%} %{$_errdecor2%} %{$_errclr$_bold%}\
-$_rtnval %{$_rst%} %{$_errdecor2%} %{$_errdecor1%} %{$_rst%}`
+    _rtnErrTime=`printf "%s%s[%s>%s%03d%s%s<%s]%s" %{$_rst%} %{$_errdecor1%} %{$_errdecor2%} %{$_errclr$_bold%} $_rtnval %{$_rst%} %{$_errdecor2%} %{$_errdec>
 else
-	_now=$(date +%H:%M)
-	_rtnErrTime=`echo "%{$_rst%}%{$_timedecor%}[%{$_timeclr%}$_now%{$_timedecor%}]"`
+    _now=$(date +%H:%M)
+    _rtnErrTime=`echo "%{$_rst%}%{$_timedecor%}[%{$_timeclr%}$_now%{$_timedecor%}]"`
 fi
 
-_end=%{$_appleclr%}Ô
 echo "%{$_uhostdecor%}[%{$_userclr%}$_userNameButTheFirstThreeCharactersOnlyInUPPERcase%{$_rst%}%{$_atsignclr%}@%{$_hostclr%}%m%{$_uhostdecor%}]\
-%{$_pwddecor%}(%{$_pwdclr%}%1~%{$_pwddecor%})%{$_rst%}$_rtnErrTime%{$_appleclr%}%{$_rst%}: "
+%{$_pwddecor%}(%{$_pwdclr%}%1~%{$_pwddecor%})%{$_rst%}$_rtnErrTime%{$_appleclr%}:\>%{$_rst%} "
