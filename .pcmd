@@ -1,0 +1,55 @@
+#!/bin/bash
+_rtnval=$1
+_s=$2
+_userNameButTheFirstThreeCharactersOnly=$(LOGNAME | cut -c1-3)
+# I know function and variable names are supposed to be descriptive but is this taking the pineapple?
+_userNameButTheFirstThreeCharactersOnlyInUPPERcase=$(echo $_userNameButTheFirstThreeCharactersOnly | tr '[:lower:]' '[:upper:]')
+_userclr=$(tput setaf 220; tput setab 16;)
+_uhostdecor=$(tput setab 235; tput setaf 220;)
+_atsignclr=$(tput setab 220; tput setaf 16;)
+_hostclr1=$(tput setaf 16; tput setab 172;)
+_hostclr2=$(tput setaf 172; tput setab 16;)
+_pwddecor=$(tput setaf 154; tput setab 236;)
+_pwdclr=$(tput bold; tput setaf 46; tput setab 236;)
+_timedecor=$(tput setaf 51; tput setab 31;)
+_timeclr=$(tput bold; tput setaf 231; tput setab 240;)
+_errdecor1=$(tput setab 248; tput setaf 160;)
+_errdecor2=$(tput setab 245; tput setaf 231;)
+_errclr=$(tput setab 243; tput setaf 160;)
+_appleclr=$(tput setaf 123; tput setab 24;)
+_carrotclr=$(tput setaf 123;)
+_rst=$(tput sgr0)
+_basename=${PWD#/*/*/*/*}
+_pwd=${_basename/$HOME/'~'}
+# -= I'm Leaving this hear until I know why it doesn't work =-
+if [[ "$_s" = "0" ]]
+then
+	if [ "$_rtnval" != "0" ]
+	then
+		_rtnErrTime=`printf "%s%s[%s>%s%03d%s%s<%s]%s" %{$_rst%} %{$_errdecor1%} %{$_errdecor2%} %{$_rst$_errclr%} $_rtnval %{$_rst%} %{$_errdecor2%} %{$_rst$_errdecor1%} %{$_rst%}`
+	else
+		export xx=1;
+		_now=$(date +%H:%M);
+		_rtnErrTime=`echo "%{$_rst%}%{$_timedecor%}[%{$_timeclr%}$_now%{$_timedecor%}]"`;
+	fi
+elif [[ "$_s" = "1" ]]
+then
+	if [ "$_rtnval" != "0" ]
+	then
+		_rtnErrTime=`printf "%s%s[%s>%s%03d%s%s<%s]%s" %{$_rst%} %{$_errdecor1%} %{$_errdecor2%} %{$_rst$_errclr%} $_rtnval %{$_rst%} %{$_errdecor2%} %{$_rst$_errdecor1%} %{$_rst%}`
+	else
+		export xx=2;
+		_rtnErrTime=`echo "Stephe"`;
+	fi
+elif [[ "$_s" = "2" ]]
+then
+	if [ "$_rtnval" != "0" ]
+	then
+		_rtnErrTime=`printf "%s%s[%s>%s%03d%s%s<%s]%s" %{$_rst%} %{$_errdecor1%} %{$_errdecor2%} %{$_rst$_errclr%} $_rtnval %{$_rst%} %{$_errdecor2%} %{$_rst$_errdecor1%} %{$_rst%}`
+	else
+		export xx=0;
+		_rtnErrTime=`echo "-SMBP-"`;
+	fi
+fi
+
+echo "%{$_uhostdecor%}[%{$_userclr%}$_userNameButTheFirstThreeCharactersOnlyInUPPERcase%{$_rst%}%{$_atsignclr%}@%{$_hostclr1%}S%{$_hostclr2%}MBP%{$_rst%}%{$_uhostdecor%}]%{$_rst%}%{$_pwddecor%}(%{$_pwdclr%}$_pwd%{$_pwddecor%})%{$_rst%}$_rtnErrTime%{$_appleclr%}%{$_rst%}%{$_appleclr%}\$%{$_rst%}%{$_carrotclr%}>%{$_rst%} "
